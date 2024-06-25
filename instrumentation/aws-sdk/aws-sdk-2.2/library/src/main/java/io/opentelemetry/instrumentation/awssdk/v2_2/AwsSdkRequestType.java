@@ -36,6 +36,14 @@ enum AwsSdkRequestType {
       request("aws.bedrock.agent_id", "agentId"),
       request("aws.bedrock.datasource_id", "dataSourceId"),
       request("aws.bedrock.knowledgebase_id", "knowledgeBaseId")),
+//  BEDROCKRUNTIME(
+//      request("gen_ai.request.model", "modelId"),
+//      request("gen_ai.request.temperature", "body"),
+//      request("gen_ai.request.top_p", "body"),
+//      request("gen_ai.request.max_tokens", "body"),
+//      response("gen_ai.response.finish_reason", "body"),
+//      response("gen_ai.usage.prompt_tokens", "body"),
+//      response("gen_ai.usage.completion_tokens", "body")),
 
   LAMBDA(
       request("aws.lambda.function_name", "FunctionName"),

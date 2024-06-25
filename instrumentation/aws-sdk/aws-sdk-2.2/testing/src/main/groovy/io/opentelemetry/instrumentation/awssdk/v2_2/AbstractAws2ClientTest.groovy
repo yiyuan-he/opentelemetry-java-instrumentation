@@ -86,6 +86,7 @@ abstract class AbstractAws2ClientTest extends AbstractAws2ClientCoreTest {
     if (response instanceof Future) {
       response = response.get()
     }
+
     expect:
     response != null
     response.class.simpleName.startsWith(operation) || response instanceof ResponseInputStream
