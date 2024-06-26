@@ -37,10 +37,8 @@ enum AwsSdkRequestType {
   BEDROCKAGENTOPERATION(
       request(AWS_BEDROCK_AGENT_ID.getKey(), "agentId"),
       response(AWS_BEDROCK_AGENT_ID.getKey(), "agentId")),
-  BEDROCKDATASOURCEOPERATION(
-      request(AWS_BEDROCK_DATASOURCE_ID.getKey(), "agentId")),
-  BEDROCKKNOWLEDGEBASEOPERATION(
-      request(AWS_BEDROCK_KNOWLEDGEBASE_ID.getKey(), "agentId")),
+  BEDROCKDATASOURCEOPERATION(request(AWS_BEDROCK_DATASOURCE_ID.getKey(), "agentId")),
+  BEDROCKKNOWLEDGEBASEOPERATION(request(AWS_BEDROCK_KNOWLEDGEBASE_ID.getKey(), "agentId")),
   BEDROCKRUNTIME(
       request(GEN_AI_MODEL.getKey(), "modelId"),
       request(GEN_AI_TEMPERATURE.getKey(), "body"),

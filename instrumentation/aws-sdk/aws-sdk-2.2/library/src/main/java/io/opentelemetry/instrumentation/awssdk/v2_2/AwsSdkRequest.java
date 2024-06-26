@@ -62,14 +62,18 @@ enum AwsSdkRequest {
   BedrockDeleteDataSourceRequest(BEDROCKDATASOURCEOPERATION, "DeleteDataSourceRequest"),
   BedrockGetDataSourceRequest(BEDROCKDATASOURCEOPERATION, "GetDataSourceRequest"),
   BedrockUpdateDataSourceRequest(BEDROCKDATASOURCEOPERATION, "UpdateDataSourceRequest"),
-  BedrocAssociateAgentKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "AssociateAgentKnowledgeBaseRequest"),
+  BedrocAssociateAgentKnowledgeBaseRequest(
+      BEDROCKKNOWLEDGEBASEOPERATION, "AssociateAgentKnowledgeBaseRequest"),
   BedrockCreateDataSourceRequest(BEDROCKKNOWLEDGEBASEOPERATION, "CreateDataSourceRequest"),
   BedrockDeleteKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "DeleteKnowledgeBaseRequest"),
-  BedrockDisassociateAgentKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "DisassociateAgentKnowledgeBaseRequest"),
-  BedrockGetAgentKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "GetAgentKnowledgeBaseRequest"),
+  BedrockDisassociateAgentKnowledgeBaseRequest(
+      BEDROCKKNOWLEDGEBASEOPERATION, "DisassociateAgentKnowledgeBaseRequest"),
+  BedrockGetAgentKnowledgeBaseRequest(
+      BEDROCKKNOWLEDGEBASEOPERATION, "GetAgentKnowledgeBaseRequest"),
   BedrockGetKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "GetKnowledgeBaseRequest"),
   BedrockListDataSourcesRequest(BEDROCKKNOWLEDGEBASEOPERATION, "ListDataSourcesRequest"),
-  BedrockUpdateAgentKnowledgeBaseRequest(BEDROCKKNOWLEDGEBASEOPERATION, "UpdateAgentKnowledgeBaseRequest"),
+  BedrockUpdateAgentKnowledgeBaseRequest(
+      BEDROCKKNOWLEDGEBASEOPERATION, "UpdateAgentKnowledgeBaseRequest"),
   // specific requests
   BatchGetItem(
       DYNAMODB,
