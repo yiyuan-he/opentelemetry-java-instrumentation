@@ -5,6 +5,9 @@
 
 package io.opentelemetry.instrumentation.awssdk.v2_2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -12,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import org.json.JSONObject;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.core.SdkPojo;
 import software.amazon.awssdk.http.ContentStreamProvider;
@@ -22,6 +24,7 @@ import software.amazon.awssdk.utils.IoUtils;
 import software.amazon.awssdk.utils.StringUtils;
 
 class Serializer {
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   @Nullable
   String serialize(Object target) {
@@ -74,9 +77,9 @@ class Serializer {
   @Nullable
   String serialize(String attributeName, Object target) {
     try {
-      JSONObject jsonBody;
+      JsonNode jsonBody;
       if (target instanceof SdkBytes) {
-        jsonBody = new JSONObject(((SdkBytes) target).asUtf8String());
+        jsonBody = objectMapper.readTree(((SdkBytes) target).asUtf8String());
       } else {
         if (target != null) {
           return target.toString();
@@ -99,89 +102,89 @@ class Serializer {
         default:
           return null;
       }
-    } catch (RuntimeException e) {
-      return null;
+    } catch (RuntimeException | JsonProcessingException e) {
+      throw new IllegalStateException("Failed to instantiate operation class", e);
     }
   }
 
-  private static String getFinishReason(JSONObject body) {
+  private static String getFinishReason(JsonNode body) {
     if (body.has("stop_reason")) {
-      return body.getString("stop_reason");
+      return body.get("stop_reason").asText();
     } else if (body.has("results")) {
-      JSONObject result = (JSONObject) body.getJSONArray("results").get(0);
+      JsonNode result = body.get("results").get(0);
       if (result.has("completionReason")) {
-        return result.getString("completionReason");
+        return result.get("completionReason").asText();
       }
     }
     return null;
   }
 
-  private static String getInputTokens(JSONObject body) {
+  private static String getInputTokens(JsonNode body) {
     if (body.has("prompt_token_count")) {
-      return String.valueOf(body.getInt("prompt_token_count"));
+      return String.valueOf(body.get("prompt_token_count").asInt());
     } else if (body.has("inputTextTokenCount")) {
-      return String.valueOf(body.getInt("inputTextTokenCount"));
+      return String.valueOf(body.get("inputTextTokenCount").asInt());
     } else if (body.has("usage")) {
-      JSONObject usage = (JSONObject) body.get("usage");
+      JsonNode usage = body.get("usage");
       if (usage.has("input_tokens")) {
-        return String.valueOf(usage.getInt("input_tokens"));
+        return String.valueOf(usage.get("input_tokens").asInt());
       }
     }
     return null;
   }
 
-  private static String getOutputTokens(JSONObject body) {
+  private static String getOutputTokens(JsonNode body) {
     if (body.has("generation_token_count")) {
-      return String.valueOf(body.getInt("generation_token_count"));
+      return String.valueOf(body.get("generation_token_count").asInt());
     } else if (body.has("results")) {
-      JSONObject result = (JSONObject) body.getJSONArray("results").get(0);
+      JsonNode result = body.get("results").get(0);
       if (result.has("tokenCount")) {
-        return String.valueOf(result.getInt("tokenCount"));
+        return String.valueOf(result.get("tokenCount").asInt());
       }
     } else if (body.has("inputTextTokenCount")) {
-      return String.valueOf(body.getInt("inputTextTokenCount"));
+      return String.valueOf(body.get("inputTextTokenCount").asInt());
     } else if (body.has("usage")) {
-      JSONObject usage = (JSONObject) body.get("usage");
+      JsonNode usage = body.get("usage");
       if (usage.has("output_tokens")) {
-        return String.valueOf(usage.getInt("output_tokens"));
+        return String.valueOf(usage.get("output_tokens").asInt());
       }
     }
     return null;
   }
 
-  private static String getTopP(JSONObject body) {
+  private static String getTopP(JsonNode body) {
     if (body.has("top_p")) {
-      return String.valueOf(body.getFloat("top_p"));
+      return String.valueOf(body.get("top_p").asDouble());
     } else if (body.has("textGenerationConfig")) {
-      JSONObject usage = (JSONObject) body.get("textGenerationConfig");
+      JsonNode usage = body.get("textGenerationConfig");
       if (usage.has("topP")) {
-        return String.valueOf(usage.getFloat("topP"));
+        return String.valueOf(usage.get("topP").asInt());
       }
     }
     return null;
   }
 
-  private static String getTemperature(JSONObject body) {
+  private static String getTemperature(JsonNode body) {
     if (body.has("temperature")) {
-      return String.valueOf(body.getFloat("temperature"));
+      return String.valueOf(body.get("temperature").asDouble());
     } else if (body.has("textGenerationConfig")) {
-      JSONObject usage = (JSONObject) body.get("textGenerationConfig");
+      JsonNode usage = body.get("textGenerationConfig");
       if (usage.has("temperature")) {
-        return String.valueOf(usage.getFloat("temperature"));
+        return String.valueOf(usage.get("temperature").asDouble());
       }
     }
     return null;
   }
 
-  private static String getMaxTokens(JSONObject body) {
+  private static String getMaxTokens(JsonNode body) {
     if (body.has("max_tokens")) {
-      return String.valueOf(body.getInt("max_tokens"));
+      return String.valueOf(body.get("max_tokens").asInt());
     } else if (body.has("max_gen_len")) {
-      return String.valueOf(body.getInt("max_gen_len"));
+      return String.valueOf(body.get("max_gen_len").asInt());
     } else if (body.has("textGenerationConfig")) {
-      JSONObject usage = (JSONObject) body.get("textGenerationConfig");
+      JsonNode usage = body.get("textGenerationConfig");
       if (usage.has("maxTokenCount")) {
-        return String.valueOf(usage.getInt("maxTokenCount"));
+        return String.valueOf(usage.get("maxTokenCount").asInt());
       }
     }
     return null;
