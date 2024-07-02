@@ -19,6 +19,9 @@ dependencies {
   compileOnly("software.amazon.awssdk:sqs:2.2.0")
   compileOnly("software.amazon.awssdk:sns:2.2.0")
   compileOnly("software.amazon.awssdk:ses:2.2.0")
+  compileOnly("software.amazon.awssdk:bedrock:2.26.8")
+  compileOnly("software.amazon.awssdk:bedrockagent:2.26.8")
+  compileOnly("software.amazon.awssdk:bedrockruntime:2.26.8")
 
   // needed for SQS - using emq directly as localstack references emq v0.15.7 ie WITHOUT AWS trace header propagation
   implementation("org.elasticmq:elasticmq-rest-sqs_2.12:1.0.0")
@@ -28,4 +31,10 @@ dependencies {
   implementation("org.apache.groovy:groovy")
   implementation("io.opentelemetry:opentelemetry-api")
   implementation("org.spockframework:spock-core")
+  // needed for BedrockRuntime Json serialization
+  implementation("com.fasterxml.jackson.core:jackson-databind") {
+    version {
+      strictly("[2.13.3,)")
+    }
+  }
 }
