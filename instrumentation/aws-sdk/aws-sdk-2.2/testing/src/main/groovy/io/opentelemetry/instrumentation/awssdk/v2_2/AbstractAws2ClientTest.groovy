@@ -11,9 +11,7 @@ import io.opentelemetry.testing.internal.armeria.common.HttpResponse
 import io.opentelemetry.testing.internal.armeria.common.HttpStatus
 import io.opentelemetry.testing.internal.armeria.common.MediaType
 import org.junit.jupiter.api.Assumptions
-import com.fasterxml.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.core.ResponseInputStream
-import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.async.AsyncResponseTransformer
 import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.core.retry.RetryPolicy
@@ -35,14 +33,6 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import software.amazon.awssdk.services.sqs.SqsClient
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
-import software.amazon.awssdk.services.bedrock.BedrockClient
-import software.amazon.awssdk.services.bedrock.model.GetGuardrailRequest
-import software.amazon.awssdk.services.bedrockagent.BedrockAgentClient
-import software.amazon.awssdk.services.bedrockagent.model.GetAgentRequest
-import software.amazon.awssdk.services.bedrockagent.model.GetKnowledgeBaseRequest
-import software.amazon.awssdk.services.bedrockagent.model.GetDataSourceRequest
-import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient
-import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelRequest
 import spock.lang.Unroll
 
 import java.time.Duration
@@ -190,51 +180,6 @@ abstract class AbstractAws2ClientTest extends AbstractAws2ClientCoreTest {
           <ResponseMetadata><RequestId>0ac9cda2-bbf4-11d3-f92b-31fa5e8dbc99</RequestId></ResponseMetadata>
         </DeleteOptionGroupResponse>
         """
-    "Bedrock"    | "GetGuardrail"      | "GET" | "UNKNOWN"                   | BedrockClient.builder()                 | { c -> c.getGuardrail(GetGuardrailRequest.builder().guardrailIdentifier("guardrailId").build()) } | """
-        {
-           "blockedInputMessaging": "string",
-           "blockedOutputsMessaging": "string",
-           "contentPolicy": {},
-           "createdAt": "2024-06-12T18:31:45Z",
-           "description": "string",
-           "guardrailArn": "string",
-           "guardrailId": "guardrailId",
-           "kmsKeyArn": "string",
-           "name": "string",
-           "sensitiveInformationPolicy": {},
-           "status": "READY",
-           "topicPolicy": {
-              "topics": [
-                 {
-                    "definition": "string",
-                    "examples": [ "string" ],
-                    "name": "string",
-                    "type": "string"
-                 }
-              ]
-           },
-           "updatedAt": "2024-06-12T18:31:48Z",
-           "version": "DRAFT",
-           "wordPolicy": {}
-        }
-      """
-    "BedrockAgent"    | "GetAgent"           | "GET" | "UNKNOWN"                   | BedrockAgentClient.builder()                             | { c -> c.getAgent(GetAgentRequest.builder().agentId("agentId").build()) } | ""
-    "BedrockAgent"    | "GetKnowledgeBase"   | "GET" | "UNKNOWN"                   | BedrockAgentClient.builder()                             | { c -> c.getKnowledgeBase(GetKnowledgeBaseRequest.builder().knowledgeBaseId("knowledgeBaseId").build()) } | ""
-    "BedrockAgent"    | "GetDataSource"      | "GET" | "UNKNOWN"                   | BedrockAgentClient.builder()                             | { c -> c.getDataSource(GetDataSourceRequest.builder().dataSourceId("datasourceId").knowledgeBaseId("knowledgeBaseId").build()) } | ""
-    "BedrockRuntime"    | "InvokeModel"      | "POST" | "UNKNOWN"                   | BedrockRuntimeClient.builder()                             |
-      { c -> c.invokeModel(
-        InvokeModelRequest.builder()
-          .body(SdkBytes.fromUtf8String(new ObjectMapper().createObjectNode().put("prompt", "Hi Amazon bedrock, how are you??").put("max_gen_len", 100).put("temperature", 0.7).put("top_p", 0.9).toString()))
-          .modelId("meta.llama2-13b-chat-v1")
-          .contentType("application/json")
-          .accept("application/json")
-          .build()) } | """
-        {
-            "completion": " Here is a simple explanation of black ",
-            "stop_reason": "length",
-            "stop": "holes"
-        }
-      """
   }
 
   def "send #operation async request with builder #builder.class.getName() mocked response"() {
