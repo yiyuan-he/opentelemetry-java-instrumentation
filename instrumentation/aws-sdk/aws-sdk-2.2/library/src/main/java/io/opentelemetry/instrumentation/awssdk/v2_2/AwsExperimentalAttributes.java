@@ -23,7 +23,7 @@ final class AwsExperimentalAttributes {
   static final AttributeKey<String> AWS_BEDROCK_KNOWLEDGEBASE_ID =
       stringKey("aws.bedrock.knowledge_base.id");
 
-  // TODO: Merge in gen_ai attributes in opentelemetry-semconv-incubating once upgrade to v1.25.0
+  // TODO: Merge in gen_ai attributes in opentelemetry-semconv-incubating once upgrade to v1.26.0
   static final AttributeKey<String> GEN_AI_MODEL = stringKey("gen_ai.request.model");
   static final AttributeKey<String> GEN_AI_SYSTEM = stringKey("gen_ai.system");
 
