@@ -67,7 +67,6 @@ class FieldMapper {
     }
     if (target != null) {
       String value = serializer.serialize(target);
-
       if (!StringUtils.isEmpty(value)) {
         span.setAttribute(fieldMapping.getAttribute(), value);
       }

@@ -5,6 +5,7 @@
 
 package io.opentelemetry.instrumentation.awssdk.v2_2;
 
+import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_SYSTEM;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.BEDROCKRUNTIME;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.DYNAMODB;
 
@@ -320,7 +321,7 @@ final class TracingExecutionInterceptor implements ExecutionInterceptor {
     }
 
     if (awsSdkRequest.type() == BEDROCKRUNTIME) {
-      span.setAttribute("gen_ai.system", "aws_bedrock");
+      span.setAttribute(GEN_AI_SYSTEM.getKey(), "aws_bedrock");
     }
   }
 
