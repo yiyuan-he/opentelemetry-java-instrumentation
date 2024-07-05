@@ -5,6 +5,7 @@
 
 package io.opentelemetry.instrumentation.awssdk.v2_2;
 
+import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_SYSTEM;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.BEDROCKRUNTIME;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.DYNAMODB;
 
@@ -43,7 +44,6 @@ import software.amazon.awssdk.http.SdkHttpResponse;
 
 /** AWS request execution interceptor. */
 final class TracingExecutionInterceptor implements ExecutionInterceptor {
-  private static final AttributeKey<String> GEN_AI_SYSTEM = AttributeKey.stringKey("gen_ai.system");
   private static final String GEN_AI_SYSTEM_BEDROCK = "aws_bedrock";
 
   // the class name is part of the attribute name, so that it will be shaded when used in javaagent
