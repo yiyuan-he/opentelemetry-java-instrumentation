@@ -25,7 +25,6 @@ final class AwsExperimentalAttributes {
 
   // TODO: Merge in gen_ai attributes in opentelemetry-semconv-incubating once upgrade to v1.25.0
   static final AttributeKey<String> GEN_AI_MODEL = stringKey("gen_ai.request.model");
-  static final AttributeKey<String> GEN_AI_SYSTEM = stringKey("gen_ai.system");
 
   private AwsExperimentalAttributes() {}
 }
