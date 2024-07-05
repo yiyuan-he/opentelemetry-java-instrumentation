@@ -40,7 +40,9 @@ enum AwsSdkRequest {
   BedrockRequest(BEDROCK, "BedrockRequest"),
   BedrockAgentRuntimeRequest(BEDROCKAGENTOPERATION, "BedrockAgentRuntimeRequest"),
   BedrockRuntimeRequest(BEDROCKRUNTIME, "BedrockRuntimeRequest"),
-  // BedrockAgent API based requests
+  // BedrockAgent API based requests. We only support operations that are related to
+  // Agent/DataSources/KnowledgeBases
+  // resources and the request/response context contains the resource ID.
   BedrockCreateAgentActionGroupRequest(BEDROCKAGENTOPERATION, "CreateAgentActionGroupRequest"),
   BedrockCreateAgentAliasRequest(BEDROCKAGENTOPERATION, "CreateAgentAliasRequest"),
   BedrockDeleteAgentActionGroupRequest(BEDROCKAGENTOPERATION, "DeleteAgentActionGroupRequest"),

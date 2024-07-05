@@ -5,6 +5,7 @@
 
 package io.opentelemetry.instrumentation.awssdk.v2_2;
 
+import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.BEDROCKRUNTIME;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsSdkRequestType.DYNAMODB;
 
 import io.opentelemetry.api.common.AttributeKey;
@@ -316,6 +317,10 @@ final class TracingExecutionInterceptor implements ExecutionInterceptor {
       if (operation != null) {
         span.setAttribute(SemanticAttributes.DB_OPERATION, operation);
       }
+    }
+
+    if (awsSdkRequest.type() == BEDROCKRUNTIME) {
+      span.setAttribute("gen_ai.system", "aws_bedrock");
     }
   }
 

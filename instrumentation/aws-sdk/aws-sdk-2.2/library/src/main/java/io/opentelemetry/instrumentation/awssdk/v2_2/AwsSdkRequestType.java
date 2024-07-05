@@ -14,13 +14,7 @@ import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttrib
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.AWS_QUEUE_URL;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.AWS_STREAM_NAME;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.AWS_TABLE_NAME;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_COMPLETION_TOKENS;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_FINISH_REASON;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_MAX_TOKENS;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_MODEL;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_PROMPT_TOKENS;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_TEMPERATURE;
-import static io.opentelemetry.instrumentation.awssdk.v2_2.AwsExperimentalAttributes.GEN_AI_TOP_P;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.FieldMapping.request;
 import static io.opentelemetry.instrumentation.awssdk.v2_2.FieldMapping.response;
 
@@ -37,16 +31,13 @@ enum AwsSdkRequestType {
   BEDROCKAGENTOPERATION(
       request(AWS_BEDROCK_AGENT_ID.getKey(), "agentId"),
       response(AWS_BEDROCK_AGENT_ID.getKey(), "agentId")),
-  BEDROCKDATASOURCEOPERATION(request(AWS_BEDROCK_DATASOURCE_ID.getKey(), "dataSourceId")),
-  BEDROCKKNOWLEDGEBASEOPERATION(request(AWS_BEDROCK_KNOWLEDGEBASE_ID.getKey(), "knowledgeBaseId")),
-  BEDROCKRUNTIME(
-      request(GEN_AI_MODEL.getKey(), "modelId"),
-      request(GEN_AI_TEMPERATURE.getKey(), "body"),
-      request(GEN_AI_TOP_P.getKey(), "body"),
-      request(GEN_AI_MAX_TOKENS.getKey(), "body"),
-      response(GEN_AI_FINISH_REASON.getKey(), "body"),
-      response(GEN_AI_PROMPT_TOKENS.getKey(), "body"),
-      response(GEN_AI_COMPLETION_TOKENS.getKey(), "body"));
+  BEDROCKDATASOURCEOPERATION(
+      request(AWS_BEDROCK_DATASOURCE_ID.getKey(), "dataSourceId"),
+      response(AWS_BEDROCK_DATASOURCE_ID.getKey(), "dataSourceId")),
+  BEDROCKKNOWLEDGEBASEOPERATION(
+      request(AWS_BEDROCK_KNOWLEDGEBASE_ID.getKey(), "knowledgeBaseId"),
+      response(AWS_BEDROCK_KNOWLEDGEBASE_ID.getKey(), "knowledgeBaseId")),
+  BEDROCKRUNTIME(request(GEN_AI_MODEL.getKey(), "modelId"));
 
   // Wrapping in unmodifiableMap
   @SuppressWarnings("ImmutableEnumChecker")
