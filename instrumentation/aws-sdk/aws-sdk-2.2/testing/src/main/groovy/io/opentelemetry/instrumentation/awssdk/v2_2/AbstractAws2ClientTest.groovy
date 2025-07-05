@@ -143,6 +143,8 @@ abstract class AbstractAws2ClientTest extends AbstractAws2ClientCoreTest {
             "$RpcIncubatingAttributes.RPC_SYSTEM" "aws-api"
             "$RpcIncubatingAttributes.RPC_SERVICE" "$service"
             "$RpcIncubatingAttributes.RPC_METHOD" "${operation}"
+            "aws.auth.account.access_key" "my-access-key"
+            "aws.auth.region" "ap-northeast-1"
             "aws.agent" "java-aws-sdk"
             "$AwsIncubatingAttributes.AWS_REQUEST_ID" "$requestId"
             if (service == "S3") {
@@ -513,6 +515,8 @@ abstract class AbstractAws2ClientTest extends AbstractAws2ClientCoreTest {
             "$RpcIncubatingAttributes.RPC_SYSTEM" "aws-api"
             "$RpcIncubatingAttributes.RPC_SERVICE" "S3"
             "$RpcIncubatingAttributes.RPC_METHOD" "GetObject"
+            "aws.auth.account.access_key" "my-access-key"
+            "aws.auth.region" "ap-northeast-1"
             "aws.agent" "java-aws-sdk"
             "aws.bucket.name" "somebucket"
           }
